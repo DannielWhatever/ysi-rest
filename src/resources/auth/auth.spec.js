@@ -1,18 +1,18 @@
 'use strict';
 
+const app = require('../../server');
+const request = require('supertest').agent(app.listen());
 
-var app = require('../../server');
-var request = require('supertest').agent(app.listen());
-
-var expect = require('chai').expect;
-var should = require('should');
+const chai = require('chai');
+const expect = chai.expect;
+const should = chai.should();
 
 
 describe('GET /auth', function(){
-  it('should respond with 200 type Array', function(done){
+  it('should respond with 200 type Array', done=>{
     request
     .get('/auth')
-    .expect(200, function(err, res) {
+    .expect(200, (err, res)=>{
     	expect(Array.isArray(res.body)).to.be.true;
     	done();
     });
