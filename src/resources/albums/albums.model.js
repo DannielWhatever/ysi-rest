@@ -14,6 +14,7 @@ const AlbumSchema = mongoose.model('Album',new Schema({
   modified: Date
 }));
 
+
 exports.create = function(data){
   return new Promise((resolve, reject) => {
     new AlbumSchema(data).save((err, document) => {
@@ -38,5 +39,18 @@ exports.delete = function(qry){
   .catch( err => {
     console.log(err);
     return Promise.reject(err);
+  });
+};
+
+exports.uploadPicture = function(qry,data){
+  return new Promise((resolve, reject) => {
+    const document = new AlbumSchema(data);
+    AlbumSchema.findOne(qry, (err, doc) => {
+      if (err) { reject(err); }
+      doc.pictures.push(data);
+      doc.modified = data.updated;
+      doc.save();
+      resolve(doc);
+    });
   });
 };

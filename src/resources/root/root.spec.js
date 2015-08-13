@@ -9,7 +9,7 @@ var should = require('should');
 
 
 describe('GET /', function(){
-  it('should respond with 403', function(done){
+  it('should respond with 403', done => {
     request
     .get('/')
     .expect(403, done);

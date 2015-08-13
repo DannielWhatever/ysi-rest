@@ -8,4 +8,7 @@ router.get('/:albumId', controller.get);
 router.post('/', controller.save);
 router.delete('/:albumId', controller.delete);
 
+router.post('/:albumId/picture/', controller.uploadPicture);
+
+
 module.exports = router.routes();
