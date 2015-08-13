@@ -8,6 +8,7 @@ var config = require('./environment');
 var koaBody = require('koa-body');
 var morgan = require('koa-morgan');
 var cors = require('kcors');
+var auth = require('../middlewares/auth');
 
 module.exports = function(app) {
 
@@ -19,5 +20,8 @@ module.exports = function(app) {
 
   // Logger
   app.use(morgan.middleware(config.logType));
+
+  //Auth
+  app.use(auth());
 
 };

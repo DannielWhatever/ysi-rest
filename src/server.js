@@ -11,7 +11,7 @@ var config = require('./config/environment');
 console.log(config);
 
 // Start db
-require('./modules/connectDB')(config.db);
+require('./utils/connectDB')(config.db);
 
 // Bootstrap server
 var app = require('koa')();
