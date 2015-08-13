@@ -1,10 +1,11 @@
 'use strict';
 
-var app = require('../../server');
-var request = require('supertest').agent(app.listen());
+const app = require('../../server');
+const request = require('supertest').agent(app.listen());
 
-var expect = require('chai').expect;
-var should = require('chai').should();
+const chai = require('chai');
+const expect = chai.expect;
+const should = chai.should();
 
 
 describe('GET /albums', function(){
@@ -31,6 +32,4 @@ describe('GET /albums', function(){
     	done();
     });
   });
-
-
 });

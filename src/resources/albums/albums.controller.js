@@ -47,7 +47,7 @@ exports.delete = function*(next) {
 };
 
 
-exports.save = function*(next) {
+exports.create = function*(next) {
 	this.type = 'application/json';
 	try{
 		const user = parseInt(this.request.header['auth-x']);
