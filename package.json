@@ -1,7 +1,7 @@
 {
   "name": "ysi-rest",
   "version": "0.0.1",
-  "author":"dannielwhatever",
+  "author": "dannielwhatever",
   "main": "src/server.js",
   "dependencies": {
     "kcors": "^1.0.1",
@@ -16,7 +16,6 @@
   "devDependencies": {
     "chai": "^2.1.1",
     "nodemon": "1.3.7",
-    "should": "^5.2.0",
     "supertest": "^0.15.0",
     "mocha": "^2.2.1",
     "jshint": "^2.6.3",

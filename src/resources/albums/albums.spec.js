@@ -4,7 +4,7 @@ var app = require('../../server');
 var request = require('supertest').agent(app.listen());
 
 var expect = require('chai').expect;
-var should = require('should');
+var should = require('chai').should();
 
 
 describe('GET /albums', function(){
@@ -13,7 +13,7 @@ describe('GET /albums', function(){
     .get('/albums')
     .set('auth-x','1')
     .expect(200, (err, res) => {
-    	should(res.body).be.an.instanceOf(Array);
+    	(res.body).should.be.an.instanceof(Array);
     	done();
     });
   });
@@ -25,9 +25,9 @@ describe('GET /albums', function(){
     .get('/albums/55cbf02af82ee1f2125bcb38')
     .set('auth-x','1')
     .expect(200, (err, res) => {
-      should(res.body).not.be.an.instanceOf(Array);
-      should(res.body).have.property('title');
-      should(res.body).not.have.property('passwd');
+      (res.body).should.not.be.an.instanceof(Array);
+      (res.body).should.have.property('title');
+      (res.body).should.not.have.property('passwd');
     	done();
     });
   });
