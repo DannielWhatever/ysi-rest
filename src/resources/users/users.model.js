@@ -5,7 +5,15 @@ const Schema = mongoose.Schema;
 
 
 const UserSchema = mongoose.model('User',new Schema({
-  title: {type:String, require:true}
+  email: {type:String, require:true},
+  passwd: String,
+  facebookId: String,
+  nick: String,
+  avatar: String,
+  albums: Array,
+  created: Date,
+  modified: Date,
+  lastLogin: Date
 }));
 
 

@@ -1,15 +1,14 @@
 'use strict';
 
 const _ = require('lodash');
+const moment = require('moment');
 const model = require('./albums.model');
 const controllerUtils = require('../../utils/controllers.utils');
 
 
 exports.getAll = function*(next) {
 	try{
-		const user = parseInt(this.request.header['auth-x']);
-		const qry = {'users.id':user};
-		console.log(user);
+		const qry = {'users.id':this.request.user};
 		let document = yield model.get(qry);
     document = _.map(document,album=>{
       return _.omit(album.toObject(),'passwd');
@@ -23,8 +22,7 @@ exports.getAll = function*(next) {
 exports.get = function*(next) {
 	console.log(this.params.albumId);
 	try{
-		const user = parseInt(this.request.header['auth-x']);
-		const qry = {'users.id':user,_id:this.params.albumId};
+		const qry = {'users.id':this.request.user,_id:this.params.albumId};
 		let document = yield model.get(qry);
 		if(document.length!==0){
 				document = _.omit(document[0].toObject(),'passwd');
@@ -37,8 +35,7 @@ exports.get = function*(next) {
 
 exports.delete = function*(next) {
 	try{
-		const user = parseInt(this.request.header['auth-x']);
-		const qry = {'users.id':user,_id:this.params.albumId};
+		const qry = {'users.id':this.request.user,_id:this.params.albumId};
 		let document = yield model.delete(qry);
 		controllerUtils.returnStatus200.call(this,document);
 	}catch(err){
@@ -50,10 +47,9 @@ exports.delete = function*(next) {
 exports.create = function*(next) {
 	this.type = 'application/json';
 	try{
-		const user = parseInt(this.request.header['auth-x']);
-		const timestamp = new Date();
+		const timestamp = moment().unix(); //new Date();
 		const data = _.merge(this.request.body,{
-			users: [{id:user,permission:'admin'}],
+			users: [{id:this.request.user,permission:'admin'}],
 			pictures: [],
 			created: timestamp,
 			modified: timestamp,
@@ -71,12 +67,10 @@ exports.create = function*(next) {
 exports.uploadPicture = function*(next) {
 	this.type = 'application/json';
 	try{
-		const timestamp = new Date();
-		const user = parseInt(this.request.header['auth-x']);
-		const qry = {'users.id':user,_id:this.params.albumId};
+		const qry = {'users.id':this.request.user,_id:this.params.albumId};
 		const data = _.merge(this.request.body,{
 			id: 'shalalala',
-			updated: timestamp
+			updated: moment().unix()
 		});
 		let album = yield model.uploadPicture(qry, data);
 		album = _.omit(album.toObject(),'passwd');
