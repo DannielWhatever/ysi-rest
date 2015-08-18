@@ -1,7 +1,6 @@
 'use strict';
 
 const _ = require('lodash');
-const moment = require('moment');
 const model = require('./albums.model');
 const controllerUtils = require('../../utils/controllers.utils');
 
@@ -15,7 +14,7 @@ exports.getAll = function*(next) {
     });
 		controllerUtils.returnStatus200.call(this,document);
 	}catch(err){
-		controllerUtils.returnError500.call(this,err);
+		controllerUtils.returnError.call(this,err);
 	}
 };
 
@@ -29,7 +28,7 @@ exports.get = function*(next) {
 		}
 		controllerUtils.returnStatus200.call(this,document);
 	}catch(err){
-		controllerUtils.returnError500.call(this,err);
+		controllerUtils.returnError.call(this,err);
 	}
 };
 
@@ -39,7 +38,7 @@ exports.delete = function*(next) {
 		let document = yield model.delete(qry);
 		controllerUtils.returnStatus200.call(this,document);
 	}catch(err){
-		controllerUtils.returnError500.call(this,err);
+		controllerUtils.returnError.call(this,err);
 	}
 };
 
@@ -47,7 +46,7 @@ exports.delete = function*(next) {
 exports.create = function*(next) {
 	this.type = 'application/json';
 	try{
-		const timestamp = moment().unix(); //new Date();
+		const timestamp = new Date();
 		const data = _.merge(this.request.body,{
 			users: [{id:this.request.user,permission:'admin'}],
 			pictures: [],
@@ -59,7 +58,7 @@ exports.create = function*(next) {
 		album = _.omit(album.toObject(),'passwd');
 		controllerUtils.returnStatus200.call(this,album);
 	}catch(err){
-		controllerUtils.returnError500.call(this,err);
+		controllerUtils.returnError.call(this,err);
 	}
 };
 
@@ -70,12 +69,12 @@ exports.uploadPicture = function*(next) {
 		const qry = {'users.id':this.request.user,_id:this.params.albumId};
 		const data = _.merge(this.request.body,{
 			id: 'shalalala',
-			updated: moment().unix()
+			updated: new Date()
 		});
 		let album = yield model.uploadPicture(qry, data);
 		album = _.omit(album.toObject(),'passwd');
 		controllerUtils.returnStatus200.call(this,album);
 	}catch(err){
-		controllerUtils.returnError500.call(this,err);
+		controllerUtils.returnError.call(this,err);
 	}
 };

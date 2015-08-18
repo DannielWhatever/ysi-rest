@@ -20,14 +20,14 @@ function auth(opts) {
 
         const authHeader = this.request.headers.authorization;
 
-        if(!authHeader) { throw new Error('Header authorization is required.');}
+        if(!authHeader) { this.throw('Header authorization is required.',401);}
         const token = authHeader.split(' ')[1];
-        const payload = jwt.decode(token, config.TOKEN_SECRET);
+        const payload = jwt.decode(token, config.token);
 
-        if(payload.exp <= moment().unix()) { throw new Error('The token expired.');}
+        if(payload.exp <= moment().unix()) { this.throw('The token expired.',401);}
 
         const document = yield usersModel.get({_id:payload.sub});
-        if(document.length === 0) {throw new Error('User not found.');}
+        if(document.length === 0) {this.throw('User not found.',401);}
 
         this.request.user = payload.sub;
         yield* next;
